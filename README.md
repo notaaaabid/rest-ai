@@ -1,73 +1,81 @@
-# Welcome to your Lovable project
+# Rest AI - Sleep Health & Apnea Predictor
 
-## Project info
+Rest AI is a full-stack web application designed to evaluate your sleep health using machine learning. By entering a few lifestyle and health details, the system can predict your likelihood of experiencing **Sleep Apnea** and assess your overall **Sleep Quality**.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Features
+- **AI-Powered Predictions**: Uses robust XGBoost models trained on real sleep health data to deliver accurate insights.
+- **Sleep Apnea Risk Detection**: Identifies whether you have a low, medium, or high risk for sleep apnea or insomnia.
+- **Sleep Quality Evaluation**: Predicts your sleep quality as Good, Average, or Poor.
+- **Modern User Interface**: Built with Next.js, React, Tailwind CSS, and shadcn-ui for a seamless and responsive user experience.
+- **FastAPI Backend**: A lightweight, lightning-fast Python API serving the machine learning predictions.
 
-## How can I edit this code?
+## Tech Stack
+### Frontend
+- **Next.js 16** (App Router)
+- **React 19** 
+- **TypeScript**
+- **Tailwind CSS**
+- **shadcn-ui** components
 
-There are several ways of editing your application.
+### Backend & AI
+- **Python 3**
+- **FastAPI**
+- **XGBoost** & **scikit-learn** (ML modeling and preprocessing)
+- **Pandas** & **NumPy**
 
-**Use Lovable**
+## Setup & Installation
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+### 1. Python Environment & ML Setup
+You'll need Python 3 installed to run the backend API and train the machine learning models.
 
-Changes made via Lovable will be committed automatically to this repo.
+```bash
+# Navigate to the project directory
+cd rest-ai
 
-**Use your preferred IDE**
+# Create a virtual environment
+python -m venv .venv
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+# Activate the virtual environment
+# On macOS/Linux:
+source .venv/bin/activate
+# On Windows:
+.venv\Scripts\activate
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+# Install dependencies (ensure you have pandas, numpy, scikit-learn, xgboost, fastapi, uvicorn, and joblib installed)
+pip install pandas numpy scikit-learn xgboost fastapi uvicorn joblib
 
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+# Train the ML models to generate the required model data (sleep_model.pkl)
+python ai/train_model.py
 ```
 
-**Edit a file directly in GitHub**
+### 2. Start the FastAPI Backend
+Once the model is trained, start the API server that will listen for predictions from the frontend.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```bash
+python ai/predict_api.py
+# The server will start running on http://127.0.0.1:8000
+```
 
-**Use GitHub Codespaces**
+### 3. Frontend Setup
+In a new terminal, install the Node.js dependencies and start the Next.js development server.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```bash
+# Install dependencies
+bun install   # or npm install / pnpm install
 
-## What technologies are used for this project?
+# Start the frontend server 
+bun dev       # running on http://localhost:3000
+```
 
-This project is built with:
+## Usage
+1. Open your browser and navigate to `http://localhost:3000`.
+2. Click **Start Sleep Analysis**.
+3. Fill out the **Health & Lifestyle Information** form completely.
+4. Click either **Predict Sleep Apnea** or **Predict Sleep Quality**.
+5. The Next.js frontend will communicate with the FastAPI backend, process your data through the XGBoost models, and display your personalized predictions!
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Dataset Information
+The models are trained using the **Sleep Health and Lifestyle Dataset** available in the `dataset` folder. It includes features like Age, Gender, Occupation, Sleep Duration, Physical Activity, Stress Level, BMI, Blood Pressure, Heart Rate, and Daily Steps.
 
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## License
+MIT License

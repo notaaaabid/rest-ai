@@ -9,6 +9,7 @@ import Home from "./views/Home";
 import SleepAnalysis from "./views/SleepAnalysis";
 import About from "./views/About";
 import NotFound from "./views/NotFound";
+import DarkVeil from "./components/DarkVeil";
 
 const queryClient = new QueryClient();
 
@@ -18,9 +19,12 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <div className="flex flex-col min-h-screen">
+        <div className="flex flex-col min-h-screen relative bg-transparent">
+          <div className="fixed inset-0 z-[-1] pointer-events-none w-screen h-screen">
+            <DarkVeil speed={0.5} hueShift={0} noiseIntensity={0.05} />
+          </div>
           <Navbar />
-          <main className="flex-1">
+          <main className="flex-1 z-10 relative">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/sleep-analysis" element={<SleepAnalysis />} />

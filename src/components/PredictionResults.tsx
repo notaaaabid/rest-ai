@@ -2,17 +2,22 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ShieldCheck, Lightbulb } from "lucide-react";
 
 interface Props {
-  apneaRisk: "Low" | "Medium" | "High" | null;
-  sleepQuality: "Good" | "Average" | "Poor" | null;
+  prediction: { type: "Apnea" | "Quality"; result: string } | null;
 }
 
 const riskColors = {
+  None: "bg-success",
+  Insomnia: "bg-warning",
+  "Sleep Apnea": "bg-destructive",
   Low: "bg-success",
   Medium: "bg-warning",
   High: "bg-destructive",
 };
 
 const riskWidths = {
+  None: "w-1/3",
+  Insomnia: "w-2/3",
+  "Sleep Apnea": "w-full",
   Low: "w-1/3",
   Medium: "w-2/3",
   High: "w-full",
@@ -25,6 +30,24 @@ const qualityColors = {
 };
 
 const recommendations: Record<string, string[]> = {
+  None: [
+    "Maintain your current sleep schedule",
+    "Continue regular physical activity",
+    "Keep stress levels managed",
+  ],
+  Insomnia: [
+    "Consider improving sleep hygiene",
+    "Aim for 7-9 hours of sleep consistently",
+    "Reduce screen time before bed",
+    "Monitor your stress levels",
+  ],
+  "Sleep Apnea": [
+    "Consult a healthcare professional",
+    "Consider a sleep study evaluation",
+    "Prioritize stress management techniques",
+    "Maintain a consistent sleep schedule",
+    "Avoid caffeine and alcohol before sleep",
+  ],
   Low: [
     "Maintain your current sleep schedule",
     "Continue regular physical activity",
@@ -45,8 +68,8 @@ const recommendations: Record<string, string[]> = {
   ],
 };
 
-const PredictionResults = ({ apneaRisk, sleepQuality }: Props) => {
-  const hasResults = apneaRisk || sleepQuality;
+const PredictionResults = ({ prediction }: Props) => {
+  const hasResults = !!prediction;
 
   return (
     <Card className="shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-shadow duration-300">
@@ -65,44 +88,44 @@ const PredictionResults = ({ apneaRisk, sleepQuality }: Props) => {
           </div>
         ) : (
           <>
-            {apneaRisk && (
+            {prediction.type === "Apnea" && (
               <div>
                 <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-2">Sleep Apnea Risk</p>
                 <div className="flex items-center gap-3 mb-2">
-                  <span className={`px-3 py-1 rounded-full text-sm font-bold text-primary-foreground ${riskColors[apneaRisk]}`}>
-                    {apneaRisk}
+                  <span className={`px-3 py-1 rounded-full text-sm font-bold text-primary-foreground ${riskColors[prediction.result as keyof typeof riskColors]}`}>
+                    {prediction.result}
                   </span>
                 </div>
                 <div className="h-3 rounded-full bg-secondary overflow-hidden">
-                  <div className={`h-full rounded-full ${riskColors[apneaRisk]} ${riskWidths[apneaRisk]} transition-all duration-700`} />
+                  <div className={`h-full rounded-full ${riskColors[prediction.result as keyof typeof riskColors]} ${riskWidths[prediction.result as keyof typeof riskWidths]} transition-all duration-700`} />
                 </div>
               </div>
             )}
 
-            {sleepQuality && (
+            {prediction.type === "Quality" && (
               <div>
                 <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-2">Sleep Quality</p>
                 <div className="flex items-center gap-3 mb-2">
-                  <span className={`px-3 py-1 rounded-full text-sm font-bold text-primary-foreground ${qualityColors[sleepQuality]}`}>
-                    {sleepQuality}
+                  <span className={`px-3 py-1 rounded-full text-sm font-bold text-primary-foreground ${qualityColors[prediction.result as keyof typeof qualityColors]}`}>
+                    {prediction.result}
                   </span>
                 </div>
                 <div className="h-3 rounded-full bg-secondary overflow-hidden">
-                  <div className={`h-full rounded-full ${qualityColors[sleepQuality]} ${
-                    sleepQuality === "Good" ? "w-1/3" : sleepQuality === "Average" ? "w-2/3" : "w-full"
+                  <div className={`h-full rounded-full ${qualityColors[prediction.result as keyof typeof qualityColors]} ${
+                    prediction.result === "Good" ? "w-1/3" : prediction.result === "Average" ? "w-2/3" : "w-full"
                   } transition-all duration-700`} />
                 </div>
               </div>
             )}
 
-            {apneaRisk && (
+            {prediction.type === "Apnea" && (
               <div className="bg-secondary/60 rounded-xl p-4">
                 <p className="flex items-center gap-2 text-sm font-semibold mb-2">
                   <Lightbulb className="h-4 w-4 text-warning" />
                   Recommendations
                 </p>
                 <ul className="space-y-1.5 text-sm text-muted-foreground">
-                  {recommendations[apneaRisk].map((r, i) => (
+                  {recommendations[prediction.result].map((r, i) => (
                     <li key={i} className="flex items-start gap-2">
                       <span className="text-primary mt-0.5">•</span> {r}
                     </li>
