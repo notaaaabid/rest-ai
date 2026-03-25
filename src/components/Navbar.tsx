@@ -17,7 +17,7 @@ const Navbar = () => {
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
         <Link to="/" className="flex items-center gap-2 font-heading font-bold text-lg text-white drop-shadow-md">
           <Activity className="h-6 w-6 text-primary" />
-          Sleep Health Prediction System
+          Rest AI  <span className="hidden sm:inline">- Sleep Prediction System</span>
         </Link>
 
         {/* Desktop */}
@@ -26,11 +26,10 @@ const Navbar = () => {
             <Link
               key={link.to}
               to={link.to}
-              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
-                location.pathname === link.to
-                  ? "bg-white text-black shadow-md"
-                  : "text-white/80 hover:text-white hover:bg-white/10"
-              }`}
+              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${location.pathname === link.to
+                ? "bg-white text-black shadow-md"
+                : "text-white/80 hover:text-white hover:bg-white/10"
+                }`}
             >
               {link.label}
             </Link>
@@ -54,11 +53,10 @@ const Navbar = () => {
               key={link.to}
               to={link.to}
               onClick={() => setMobileOpen(false)}
-              className={`block px-4 py-2 rounded-xl text-sm font-medium transition-all ${
-                location.pathname === link.to
-                  ? "bg-white text-black shadow-md"
-                  : "text-white/80 hover:text-white hover:bg-white/10"
-              }`}
+              className={`block px-4 py-2 rounded-xl text-sm font-medium transition-all ${location.pathname === link.to
+                ? "bg-white text-black shadow-md"
+                : "text-white/80 hover:text-white hover:bg-white/10"
+                }`}
             >
               {link.label}
             </Link>
